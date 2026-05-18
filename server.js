@@ -114,31 +114,42 @@ app.get("/news", async (req, res) => {
 
         const allArticles = [];
 
+        const politicsArticles = [];
+
+        const entertainmentArticles = [];
+
+        const sportsArticles = [];
+
+        const worldArticles = [];
+
+        const techArticles = [];
+
         // GOOGLE TRENDS
-		try {
+        try {
 
-		    const trends = await googleTrends.dailyTrends({
-		        geo: 'US'
-		    });
+            const trends = await googleTrends.dailyTrends({
+                geo: 'US'
+            });
 
-		    const trendsData = JSON.parse(trends);
+            const trendsData = JSON.parse(trends);
 
-		    const trendingSearches =
-		        trendsData.default.trendingSearchesDays[0].trendingSearches;
+            const trendingSearches =
+                trendsData.default.trendingSearchesDays[0].trendingSearches;
 
-		    console.log("Trending Searches:");
+            console.log("Trending Searches:");
 
-		    trendingSearches.slice(0, 10).forEach(item => {
+            trendingSearches.slice(0, 10).forEach(item => {
 
-		        console.log(item.title.query);
+                console.log(item.title.query);
 
-		    });
+            });
 
-		} catch (trendError) {
+        } catch (trendError) {
 
-		    console.log("Google Trends failed");
+            console.log("Google Trends failed");
 
-		}
+        }
+
         // LOAD RSS FEEDS
         for (const url of feeds) {
 
@@ -172,6 +183,83 @@ app.get("/news", async (req, res) => {
 
                 allArticles.push(...articles);
 
+                // AUTO CATEGORIZATION
+                articles.forEach(article => {
+
+                    const title =
+                        article.title.toLowerCase();
+
+                    // POLITICS
+                    if (
+                        title.includes("trump") ||
+                        title.includes("white house") ||
+                        title.includes("senate") ||
+                        title.includes("congress") ||
+                        title.includes("democrat") ||
+                        title.includes("republican") ||
+                        title.includes("election") ||
+                        title.includes("biden") ||
+                        title.includes("politic")
+                    ) {
+
+                        politicsArticles.push(article);
+
+                    }
+
+                    // ENTERTAINMENT
+                    else if (
+                        title.includes("celebrity") ||
+                        title.includes("movie") ||
+                        title.includes("music") ||
+                        title.includes("tmz") ||
+                        title.includes("hollywood") ||
+                        title.includes("actor") ||
+                        title.includes("singer")
+                    ) {
+
+                        entertainmentArticles.push(article);
+
+                    }
+
+                    // SPORTS
+                    else if (
+                        title.includes("nba") ||
+                        title.includes("nfl") ||
+                        title.includes("soccer") ||
+                        title.includes("baseball") ||
+                        title.includes("sports") ||
+                        title.includes("basketball") ||
+                        title.includes("football")
+                    ) {
+
+                        sportsArticles.push(article);
+
+                    }
+
+                    // TECH
+                    else if (
+                        title.includes("apple") ||
+                        title.includes("google") ||
+                        title.includes("microsoft") ||
+                        title.includes("ai") ||
+                        title.includes("technology") ||
+                        title.includes("iphone") ||
+                        title.includes("tesla")
+                    ) {
+
+                        techArticles.push(article);
+
+                    }
+
+                    // WORLD
+                    else {
+
+                        worldArticles.push(article);
+
+                    }
+
+                });
+
             } catch (err) {
 
                 console.log("Feed failed:", url);
@@ -180,7 +268,6 @@ app.get("/news", async (req, res) => {
 
         }
 
-        
         // TRENDING TOPICS
 
         const topicCounts = {};
@@ -218,23 +305,79 @@ app.get("/news", async (req, res) => {
         console.log("TRENDING TOPICS");
 
         console.log(trendingTopics);
-		
-		
-		
-		
-		// SORT NEWEST FIRST
+
+        // BREAKING STORIES
+
+        const breakingStories = [];
+
+        trendingTopics.forEach(topic => {
+
+            const keyword = topic[0];
+
+            const count = topic[1];
+
+            if (count >= 5) {
+
+                const matchingArticles =
+                    allArticles.filter(article => {
+
+                        return article.title
+                            .toLowerCase()
+                            .includes(keyword);
+
+                    });
+
+                if (matchingArticles.length > 0) {
+
+                    breakingStories.push({
+
+                        keyword: keyword,
+
+                        count: count,
+
+                        articles:
+                            matchingArticles.slice(0, 5)
+
+                    });
+
+                }
+
+            }
+
+        });
+
+        console.log("BREAKING STORIES");
+
+        console.log(breakingStories);
+
+        // SORT NEWEST FIRST
         allArticles.sort((a, b) =>
             new Date(b.pubDate) - new Date(a.pubDate)
         );
 
-		res.json({
-		    status: "ok",
-		    total: allArticles.length,
+        res.json({
 
-		    trending: trendingTopics,
+            status: "ok",
 
-		    articles: allArticles
-		});
+            total: allArticles.length,
+
+            trending: trendingTopics,
+
+            breakingStories: breakingStories,
+
+            politics: politicsArticles,
+
+            entertainment: entertainmentArticles,
+
+            sports: sportsArticles,
+
+            tech: techArticles,
+
+            world: worldArticles,
+
+            articles: allArticles
+
+        });
 
     } catch (error) {
 
