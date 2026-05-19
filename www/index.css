@@ -1,0 +1,218 @@
+/* =========================
+   GLOBAL
+========================= */
+
+html,
+body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #0b0b0b;
+    overflow-x: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+   APP
+========================= */
+
+.app {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+h1 {
+    font-size: 32px;
+    font-weight: 900;
+    padding: 20px 15px 10px 15px;
+    color: #ffffff;
+}
+
+/* =========================
+   SEARCH AREA
+========================= */
+
+.searchArea {
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    background: #1c1c1c;
+    color: white;
+}
+
+button {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: #d50000;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* =========================
+   NEWS CONTAINER
+========================= */
+
+#newsContainer {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.news-card {
+    width: 100%;
+    background: #171717;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    border: 1px solid #2a2a2a;
+}
+
+/* =========================
+   CARD CONTENT
+========================= */
+
+.news-content {
+    padding: 20px;
+}
+
+/* =========================
+   CATEGORY
+========================= */
+
+.category {
+    display: inline-block;
+    background: #d50000;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 6px 10px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+}
+
+/* =========================
+   HEADLINE
+========================= */
+
+.headline {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.35;
+    margin-bottom: 14px;
+    color: white;
+}
+
+/* =========================
+   DESCRIPTION
+========================= */
+
+.description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #c9c9c9;
+    margin-bottom: 18px;
+}
+
+/* =========================
+   SOURCE ROW
+========================= */
+
+.source-row {
+    border-top: 1px solid #2f2f2f;
+    padding-top: 12px;
+}
+
+.source {
+    color: #999;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media screen and (max-width: 480px) {
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .headline {
+        font-size: 20px;
+    }
+
+    .description {
+        font-size: 15px;
+    }
+
+}
+
+
+/* =========================
+   TRENDING TOPICS
+========================= */
+
+#trendingContainer {
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    padding: 15px;
+
+}
+
+.trend-chip {
+
+    background: #d50000;
+
+    color: white;
+
+    padding: 10px 14px;
+
+    border-radius: 999px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,.3);
+
+}
