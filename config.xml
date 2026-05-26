@@ -12,7 +12,7 @@
 	<allow-navigation href="http://*/*" />
 	<allow-intent href="http://*/*" />
 	<access origin="*" />
-	
+	<preference name="DisallowOverscroll" value="true" />
 	
 	
 </widget>
