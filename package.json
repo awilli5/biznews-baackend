@@ -29,5 +29,8 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-whitelist": {}
     }
+  },
+  "dependencies": {
+    "compression": "^1.8.1"
   }
 }

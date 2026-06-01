@@ -1,125 +1,176 @@
-
+```javascript
 document.addEventListener('deviceready', onDeviceReady, false);
+
+/*
+========================================
+DEVICE READY
+========================================
+*/
 
 function onDeviceReady() {
 
     console.log('Device Ready');
 
-    var refreshBtn =
-        document.getElementById('refreshBtn');
+    setupRefreshButton();
 
-    refreshBtn.addEventListener('click', function() { alert('Refresh clicked'); loadNews(); });
+    loadNews();
 
 }
 
-async function loadNews() {
+/*
+========================================
+SETUP REFRESH BUTTON
+========================================
+*/
 
-    var keyword =
-        document.getElementById('keyword').value;
+function setupRefreshButton() {
 
-    var newsContainer =
-        document.getElementById('newsContainer');
+    var refreshBtn =
+        document.getElementById('refreshBtn');
 
-    var trendingContainer =
-        document.getElementById('trendingContainer');
+    if (!refreshBtn) {
 
-    newsContainer.innerHTML =
-        '<p style="color:white;padding:20px;">Loading...</p>';
+        console.log('Refresh button not found');
 
-    if (trendingContainer) {
-
-        trendingContainer.innerHTML = '';
+        return;
 
     }
 
+    /*
+    REMOVE OLD LISTENERS
+    */
+
+    refreshBtn.onclick = null;
+
+    /*
+    ADD CLICK HANDLER
+    */
+
+    refreshBtn.onclick = function() {
+
+        console.log('Refresh clicked');
+
+        loadNews();
+
+    };
+
+}
+
+/*
+========================================
+LOAD NEWS
+========================================
+*/
+
+async function loadNews() {
+
     try {
 
-        var response = await fetch(
+        var keywordInput =
+            document.getElementById('keyword');
+
+        var keyword =
+            keywordInput ?
+            keywordInput.value :
+            '';
+
+        var newsContainer =
+            document.getElementById('newsContainer');
+
+        var trendingContainer =
+            document.getElementById('trendingContainer');
+
+        if (!newsContainer) {
+
+            console.log('newsContainer missing');
+
+            return;
+
+        }
+
+        /*
+        ========================================
+        FAST LOADING STATE
+        ========================================
+        */
+
+        newsContainer.innerHTML =
+
+            '<div style="padding:40px;text-align:center;color:white;font-size:18px;font-weight:bold;">Loading News...</div>';
+
+        if (trendingContainer) {
+
+            trendingContainer.innerHTML = '';
+
+        }
+
+        /*
+        ========================================
+        FETCH NEWS
+        ========================================
+        */
+
+        const response = await fetch(
+
             'https://biznews-baackend.onrender.com/news?q=' +
+
             encodeURIComponent(keyword)
+
         );
 
-        var data = await response.json();
+        /*
+        ========================================
+        CHECK RESPONSE
+        ========================================
+        */
 
-        // =========================
-        // TRENDING TOPICS
-        // =========================
+        if (!response.ok) {
 
-        if (trendingContainer && data.trending) {
-
-            trendingContainer.innerHTML +=
-
-                '<div style="width:100%;font-size:24px;font-weight:900;color:white;padding:15px 5px;">🔥 TRENDING NOW</div>';
-
-            data.trending.forEach(function(topic) {
-
-                trendingContainer.innerHTML +=
-
-                    '<div class="trend-chip">' +
-
-                        topic[0] + ' (' + topic[1] + ')' +
-
-                    '</div>';
-
-            });
+            throw new Error(
+                'Server Error: ' + response.status
+            );
 
         }
 
-        // =========================
-        // BREAKING STORIES
-        // =========================
+        const data = await response.json();
 
-        if (trendingContainer && data.breakingStories) {
+        /*
+        ========================================
+        BUILD HTML IN MEMORY
+        ========================================
+        */
 
-            trendingContainer.innerHTML +=
+        let html = '';
 
-                '<div style="width:100%;font-size:24px;font-weight:900;color:#ff4d4d;padding:25px 5px 15px 5px;">🚨 BREAKING NOW</div>';
-
-            data.breakingStories.forEach(function(story) {
-
-                trendingContainer.innerHTML +=
-
-                    '<div style="background:#1a1a1a;border:1px solid #333;border-radius:18px;padding:18px;margin-bottom:16px;">' +
-
-                        '<div style="font-size:22px;font-weight:900;color:white;margin-bottom:10px;">' +
-
-                            story.keyword.toUpperCase() +
-
-                        '</div>' +
-
-                        '<div style="color:#ff4d4d;font-size:14px;font-weight:bold;">' +
-
-                            story.count + ' SOURCES REPORTING' +
-
-                        '</div>' +
-
-                    '</div>';
-
-            });
-
-        }
-
-        newsContainer.innerHTML = '';
-
-        // =========================
-        // SECTION RENDERER
-        // =========================
+        /*
+        ========================================
+        SECTION RENDERER
+        ========================================
+        */
 
         function renderSection(title, articles) {
 
             if (!articles || articles.length === 0) {
+
                 return;
+
             }
 
-            newsContainer.innerHTML +=
+            html +=
 
-                '<div style="font-size:28px;font-weight:900;color:white;padding:30px 5px 15px 5px;">' +
+                '<div style="font-size:24px;font-weight:900;color:white;padding:22px 8px 14px 8px;">' +
 
                     title +
 
                 '</div>';
 
-            articles.slice(0, 15).forEach(function(article) {
+            /*
+            ========================================
+            ONLY 5 ARTICLES PER SECTION
+            ========================================
+            */
+
+            articles.slice(0, 5).forEach(function(article) {
 
                 var articleTitle =
                     article.title || 'No Title';
@@ -140,34 +191,54 @@ async function loadNews() {
 
                 if (pubDate) {
 
-                    dateText =
-                        new Date(pubDate)
-                        .toLocaleString();
+                    try {
+
+                        dateText =
+                            new Date(pubDate)
+                            .toLocaleString();
+
+                    } catch (e) {
+
+                        dateText = '';
+
+                    }
 
                 }
 
-                newsContainer.innerHTML +=
+                /*
+                ========================================
+                SAFE LINK
+                ========================================
+                */
 
-'<div onclick="cordova.InAppBrowser.open(\'' + article.link + '\', \'_blank\', \'location=yes\')" style="background:#171717;padding:20px;margin-bottom:20px;border-radius:18px;border:1px solid #333;cursor:pointer;">' +
+                var safeLink =
+                    article.link || '#';
 
-                    
+                /*
+                ========================================
+                ARTICLE CARD
+                ========================================
+                */
+
+                html +=
+
+                    '<div class="news-card" style="background:#171717;padding:18px;margin-bottom:18px;border-radius:18px;border:1px solid #333;cursor:pointer;" onclick="openArticle(\'' + safeLink + '\')">' +
 
                         (image ?
 
-                        '<img src="' + image + '" style="width:100%;height:220px;object-fit:cover;border-radius:14px;margin-bottom:16px;">'
+                        '<img loading="lazy" src="' + image + '" style="width:100%;height:210px;object-fit:cover;border-radius:14px;margin-bottom:14px;background:#111;">'
 
-                        : '')
-                        +
+                        : '') +
 
-                        '<div style="background:red;color:white;display:inline-block;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:bold;margin-bottom:15px;">LIVE NEWS</div>' +
+                        '<div style="background:red;color:white;display:inline-block;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:bold;margin-bottom:14px;">LIVE NEWS</div>' +
 
-                        '<div style="font-size:24px;font-weight:900;line-height:1.35;color:white;margin-bottom:14px;">' +
+                        '<div style="font-size:22px;font-weight:900;line-height:1.35;color:white;margin-bottom:12px;">' +
 
                             articleTitle +
 
                         '</div>' +
 
-                        '<div style="font-size:16px;line-height:1.6;color:#cccccc;margin-bottom:18px;">' +
+                        '<div style="font-size:15px;line-height:1.55;color:#cccccc;margin-bottom:16px;">' +
 
                             description +
 
@@ -195,9 +266,22 @@ async function loadNews() {
 
         }
 
-        // =========================
-        // RENDER CATEGORIES
-        // =========================
+        /*
+        ========================================
+        TOP STORIES
+        ========================================
+        */
+
+        renderSection(
+            '🔥 TOP STORIES',
+            data.top || data.articles
+        );
+
+        /*
+        ========================================
+        CATEGORY PREVIEWS
+        ========================================
+        */
 
         renderSection(
             '🏛 POLITICS',
@@ -224,40 +308,91 @@ async function loadNews() {
             data.world
         );
 
-        renderSection(
-            '📰 LATEST NEWS',
-            data.articles
-        );
+        /*
+        ========================================
+        EMPTY FALLBACK
+        ========================================
+        */
+
+        if (!html || html.trim() === '') {
+
+            html =
+
+                '<div style="padding:40px;text-align:center;color:#999;font-size:18px;font-weight:bold;">No news available</div>';
+
+        }
+
+        /*
+        ========================================
+        SINGLE DOM RENDER
+        ========================================
+        */
+
+        newsContainer.innerHTML = html;
+
+        /*
+        ========================================
+        SCROLL TO TOP
+        ========================================
+        */
+
+        window.scrollTo({
+
+            top: 0,
+            behavior: 'smooth'
+
+        });
 
     } catch (error) {
 
-        alert('ERROR: ' + error.message);
+        console.error('LOAD NEWS ERROR:', error);
 
-        console.error(error);
+        var newsContainer =
+            document.getElementById('newsContainer');
 
-        newsContainer.innerHTML =
-            '<p style="color:red;padding:20px;">Failed to load news</p>';
+        if (newsContainer) {
+
+            newsContainer.innerHTML =
+
+                '<div style="padding:40px;text-align:center;color:red;font-size:18px;font-weight:bold;">Failed to load news</div>';
+
+        }
 
     }
 
 }
 
+/*
+========================================
+OPEN ARTICLE
+========================================
+*/
 
+function openArticle(url) {
 
-window.onload = function() {
+    try {
 
-    console.log('WINDOW LOADED');
+        if (!url || url === '#') {
 
-    var refreshBtn =
-        document.getElementById('refreshBtn');
+            return;
 
-    refreshBtn.addEventListener('click', function() {
+        }
 
-        alert('Refresh works');
+        cordova.InAppBrowser.open(
 
-        loadNews();
+            url,
+            '_blank',
+            'location=yes'
 
-    });
+        );
 
-};
+    } catch (error) {
 
+        console.log(error);
+
+        window.open(url, '_blank');
+
+    }
+
+}
+```
