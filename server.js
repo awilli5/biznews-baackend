@@ -3,13 +3,13 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 import express from "express";
 import cors from "cors";
 import Parser from "rss-parser";
-import compression from "compression";
+//import compression from "compression";
 
 const app = express();
 const parser = new Parser();
 
 app.use(cors());
-app.use(compression());
+//app.use(compression());
 
 const PORT = process.env.PORT || 3000;
 
