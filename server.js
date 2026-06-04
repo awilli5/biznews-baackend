@@ -20,9 +20,19 @@ SUPER FAST CACHE
 */
 
 let homepageCache = {
-    status: "loading",
+    status: "starting",
+
     updated: null,
-    top: [],
+
+    top: [{
+        title: "Loading latest news...",
+        description: "Fetching feeds...",
+        source: "Bizmunkey",
+        pubDate: new Date(),
+        link: "",
+        image: ""
+    }],
+
     politics: [],
     entertainment: [],
     sports: [],
