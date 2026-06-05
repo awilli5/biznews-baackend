@@ -57,18 +57,20 @@ FAST FEEDS ONLY
 */
 
 const feeds = [
+    "https://feeds.abcnews.com/abcnews/topstories",
+    "https://feeds.nbcnews.com/nbcnews/public/news",
     "https://feeds.reuters.com/reuters/topNews",
-    "https://apnews.com/hub/ap-top-news?output=rss",
     "https://feeds.bbci.co.uk/news/rss.xml",
     "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
-    "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",
+    "http://rss.cnn.com/rss/cnn_topstories.rss",
+    "https://moxie.foxnews.com/google-publisher/latest.xml",
+    "https://feeds.a.dj.com/rss/RSSWorldNews.xml",
+    "https://apnews.com/hub/ap-top-news?output=rss",
     "https://www.politico.com/rss/politicopicks.xml",
     "https://thehill.com/feed/",
-    "https://feeds.nbcnews.com/nbcnews/public/news",
     "https://feeds.feedburner.com/TechCrunch/",
     "https://www.theverge.com/rss/index.xml"
 ];
-
 /*
 ========================================
 TIMEOUT WRAPPER
@@ -344,8 +346,8 @@ START SERVER
 */
 
 async function startServer() {
-    await refreshNews();
-
+    //await refreshNews();
+    refreshNews();
     /*
     ========================================
     AUTO REFRESH
