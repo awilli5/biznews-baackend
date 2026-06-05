@@ -57,14 +57,14 @@ FAST FEEDS ONLY
 */
 
 const feeds = [
-	"https://feeds.abcnews.com/abcnews/topstories",
-	"https://feeds.nbcnews.com/nbcnews/public/news",
-	"https://feeds.bbci.co.uk/news/rss.xml",
-	"https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
-	"https://moxie.foxnews.com/google-publisher/latest.xml",
-	"https://feeds.a.dj.com/rss/RSSWorldNews.xml",
-	"https://thehill.com/feed/",
-	"https://www.theverge.com/rss/index.xml"
+    "https://feeds.abcnews.com/abcnews/topstories",
+    "https://feeds.nbcnews.com/nbcnews/public/news",
+    "https://feeds.bbci.co.uk/news/rss.xml",
+    "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+    "https://moxie.foxnews.com/google-publisher/latest.xml",
+    "https://feeds.a.dj.com/rss/RSSWorldNews.xml",
+    "https://thehill.com/feed/",
+    "https://www.theverge.com/rss/index.xml"
 ];
 /*
 ========================================
@@ -296,7 +296,7 @@ async function refreshNews() {
                 new Date().toISOString(),
 
             top:
-                allArticles.slice(0, 12),
+			allArticles,
 
             politics:
                 politicsArticles.slice(0, 5),
