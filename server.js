@@ -132,7 +132,7 @@ async function refreshNews() {
                 console.log("START:", url);
 
                 const feed = await timeoutPromise(
-                    3000,
+                    5000,
                     parser.parseURL(url)
                 );
 
