@@ -57,19 +57,14 @@ FAST FEEDS ONLY
 */
 
 const feeds = [
-    "https://feeds.abcnews.com/abcnews/topstories",
-    "https://feeds.nbcnews.com/nbcnews/public/news",
-    "https://feeds.reuters.com/reuters/topNews",
-    "https://feeds.bbci.co.uk/news/rss.xml",
-    "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
-    "http://rss.cnn.com/rss/cnn_topstories.rss",
-    "https://moxie.foxnews.com/google-publisher/latest.xml",
-    "https://feeds.a.dj.com/rss/RSSWorldNews.xml",
-    "https://apnews.com/hub/ap-top-news?output=rss",
-    "https://www.politico.com/rss/politicopicks.xml",
-    "https://thehill.com/feed/",
-    "https://feeds.feedburner.com/TechCrunch/",
-    "https://www.theverge.com/rss/index.xml"
+	"https://feeds.abcnews.com/abcnews/topstories",
+	"https://feeds.nbcnews.com/nbcnews/public/news",
+	"https://feeds.bbci.co.uk/news/rss.xml",
+	"https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+	"https://moxie.foxnews.com/google-publisher/latest.xml",
+	"https://feeds.a.dj.com/rss/RSSWorldNews.xml",
+	"https://thehill.com/feed/",
+	"https://www.theverge.com/rss/index.xml"
 ];
 /*
 ========================================
