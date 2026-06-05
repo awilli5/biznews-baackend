@@ -112,7 +112,7 @@ async function refreshNews() {
 
     try {
         const allArticles = [];
-
+const feedGroups = {};
         const politicsArticles = [];
         const entertainmentArticles = [];
         const sportsArticles = [];
@@ -145,7 +145,7 @@ async function refreshNews() {
                 );
 
                 const articles = feed.items
-                    .slice(0, 3)
+                    .slice(0, 10)
                     .map(item => {
                         return {
                             title: item.title || "No Title",
@@ -193,6 +193,20 @@ async function refreshNews() {
                 Array.isArray(result.value)
             ) {
                 allArticles.push(...result.value);
+				result.value.forEach(article => {
+
+				    const source =
+				        article.source || "Other";
+
+				    if (!feedGroups[source]) {
+
+				        feedGroups[source] = [];
+
+				    }
+
+				    feedGroups[source].push(article);
+
+				});
             }
         });
 
@@ -295,7 +309,11 @@ async function refreshNews() {
             updated:
                 new Date().toISOString(),
 
-            top:
+            
+			feeds: feedGroups,
+			
+			
+			top:
 			allArticles,
 
             politics:
