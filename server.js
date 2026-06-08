@@ -198,9 +198,14 @@ const feedGroups = {};
                     url,
                     "-",
                     Date.now() - feedStart,
-                    "ms",
-                    err.message
+                    "ms"
+                    
                 );
+
+			      console.error("MESSAGE:", err.message);
+
+			      console.error("FULL ERROR:", err);
+
 
                 return [];
             }
