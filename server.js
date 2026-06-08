@@ -63,7 +63,6 @@ const feeds = [
     "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
     "https://moxie.foxnews.com/google-publisher/latest.xml",
     "https://feeds.a.dj.com/rss/RSSWorldNews.xml",
-    "https://thehill.com/feed/",
 	"https://feeds.skynews.com/feeds/rss/home.xml",
 	"http://rss.cnn.com/rss/cnn_topstories.rss",
 	"http://rss.cnn.com/rss/cnn_world.rss",
@@ -72,7 +71,6 @@ const feeds = [
     "https://www.theverge.com/rss/index.xml",
 	"https://www.cnet.com/rss/news/",
 	"https://feeds.washingtonpost.com/rss/world",
-	"https://www.politico.com/rss/politicopicks.xml",
 	"https://www.aljazeera.com/xml/rss/all.xml",
 	"https://www.theguardian.com/world/rss",
 	"https://www.techradar.com/feeds.xml",
@@ -82,7 +80,6 @@ const feeds = [
 	"https://www.wired.com/feed/rss",
 	"https://www.espn.com/espn/rss/news",
 	"https://www.ft.com/rss/home/international",
-	"https://www.newsmax.com/rss/Newsfront/16/",
 	"https://feeds.content.dowjones.io/public/rss/WSJcomUSBusiness",
 	"https://api.foxsports.com/v2/content/optimized-rss?partnerKey=MB0Wehpmuj2lUhuRhQaafhBjAJqaPU244mlTDK1i&size=30",
 	"https://www.news-medical.net/syndication.axd?format=rss" 
